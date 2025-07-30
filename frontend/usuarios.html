@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Usuarios - MangaStore</title>
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <div class="botones-navegacion">
+        <button onclick="window.location.href='index.html'">
+          Menú Principal
+        </button>
+        <button onclick="window.history.back()">Volver</button>
+      </div>
+
+      <h1>Gestión de Usuarios</h1>
+
+      <form id="formUsuario">
+        <input type="hidden" id="usuarioId" />
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" required />
+
+        <label for="correo">Correo electrónico</label>
+        <input type="email" id="correo" required />
+
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" required />
+
+        <button type="submit">Guardar</button>
+      </form>
+
+      <table id="tablaUsuarios" border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:8080/api/usuarios";
+
+      async function listarUsuarios() {
+        const res = await fetch(API_URL);
+        const lista = await res.json();
+        const tbody = document.querySelector("#tablaUsuarios tbody");
+        tbody.innerHTML = "";
+        lista.forEach((u) => {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+          <td>${u.id}</td>
+          <td>${u.nombre}</td>
+          <td>${u.correo}</td>
+          <td>
+            <button onclick="editar(${u.id}, '${u.nombre}', '${u.correo}')">Editar</button>
+            <button onclick="eliminar(${u.id})">Eliminar</button>
+          </td>
+        `;
+          tbody.appendChild(fila);
+        });
+      }
+
+      async function guardarUsuario(e) {
+        e.preventDefault();
+        const id = document.getElementById("usuarioId").value;
+        const nombre = document.getElementById("nombre").value;
+        const correo = document.getElementById("correo").value;
+        const contrasena = document.getElementById("contrasena").value;
+
+        const usuario = { nombre, correo, contrasena };
+        const metodo = id ? "PUT" : "POST";
+        const url = id ? `${API_URL}/${id}` : API_URL;
+
+        await fetch(url, {
+          method: metodo,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(usuario),
+        });
+
+        document.getElementById("formUsuario").reset();
+        listarUsuarios();
+      }
+
+      function editar(id, nombre, correo) {
+        document.getElementById("usuarioId").value = id;
+        document.getElementById("nombre").value = nombre;
+        document.getElementById("correo").value = correo;
+      }
+
+      async function eliminar(id) {
+        await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        listarUsuarios();
+      }
+
+      document
+        .getElementById("formUsuario")
+        .addEventListener("submit", guardarUsuario);
+      window.addEventListener("DOMContentLoaded", listarUsuarios);
+    </script>
+  </body>
+</html>

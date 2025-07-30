@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MangaStore - Mangas</title>
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <div class="contenedor">
+      <div class="botones-navegacion">
+        <button onclick="window.location.href='index.html'">
+          Menú Principal
+        </button>
+        <button onclick="window.history.back()">Volver</button>
+      </div>
+
+      <h1>Gestión de Mangas</h1>
+
+      <form id="formManga">
+        <input type="hidden" id="mangaId" />
+        <input type="text" id="titulo" placeholder="Título" required />
+        <input type="text" id="autor" placeholder="Autor" required />
+        <input type="text" id="genero" placeholder="Género" required />
+        <input
+          type="number"
+          id="precio"
+          placeholder="Precio"
+          step="0.01"
+          required
+        />
+        <input type="number" id="stock" placeholder="Stock" required />
+        <input type="text" id="imagenUrl" placeholder="URL de imagen" />
+        <button type="submit">Guardar</button>
+      </form>
+
+      <table id="tablaMangas">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Género</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  
+    <script src="js/Manga.js"></script>
+  </body>
+</html>

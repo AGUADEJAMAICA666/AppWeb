@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio de Sesión - MangaStore</title>
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <form id="loginForm" class="login-form">
+        <h2>INICIAR SESIÓN</h2>
+
+        <label for="correo">CORREO ELECTRONICO</label>
+        <input type="email" id="correo" required />
+        <small>Nunca compartiremos su correo electrónico con nadie más.</small>
+
+        <label for="contrasena">PASSWORD</label>
+        <input type="password" id="contrasena" required />
+
+        <button type="submit">INGRESAR</button>
+        <p id="errorMensaje" class="error-msg"></p>
+      </form>
+    </div>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>
